@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { formatDate } from "../utils/index.js";
 
 const videoSchema = new mongoose.Schema({
   video_id: {
@@ -16,15 +17,13 @@ const videoSchema = new mongoose.Schema({
   },
   video_description: {
     type: String,
-    required: true,
   },
   video_url: {
     type: String,
-    required: true,
   },
   date_started: {
     type: Date,
-    default: new Date().toISOString(),
+    default: formatDate(),
   },
   date_completed: {
     type: Date,
