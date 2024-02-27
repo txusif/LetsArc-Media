@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
+import router from "./Routes/routes.js";
 
 dotenv.config();
 
@@ -27,6 +28,8 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 db.once("open", () => {
   console.log("Connected to MongoDB");
 });
+
+app.use("/backend/", router);
 
 app.get("/backend", (req, res) => {
   res.send("Hello World");
