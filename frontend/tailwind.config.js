@@ -7,7 +7,7 @@ export default {
         outfit: ["Outfit", "sans-serif"],
       },
       colors: {
-        blue1: "#1640D6",
+        blue1: "#0B60B0",
         white1: "#FFFFFF",
         white2: "#FFFBF5",
         white3: "#E5E1DA",
