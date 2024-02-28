@@ -14,13 +14,10 @@ app.use(express.urlencoded({ extended: true }));
 
 const PORT = process.env.PORT || 8000;
 
-mongoose.connect(
-  "mongodb+srv://txusif:JjHVgtHgjNnHy5Rk@cluster0.i6jjc1n.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
-);
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 const db = mongoose.connection;
 
