@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import UserModel from "../Models/userModel.js";
 
 export const register = async (req, res) => {
+  console.log(req.body);
   const { client_name, email, phone_number, password } = req.body;
 
   try {
@@ -24,13 +25,14 @@ export const register = async (req, res) => {
 
     user.password = undefined;
 
-    res.status(201).json({ user, token });
+    res.status(201).json({ user });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });
   }
 };
 
 export const login = async (req, res) => {
+  console.log(req.body);
   const { email, password } = req.body;
 
   try {
@@ -49,15 +51,35 @@ export const login = async (req, res) => {
     user.password = undefined;
 
     const token = jwt.sign(
-      { email: user.email, id: user._id },
+      { email: user.client_email, id: user.user_id },
       process.env.JWT_SECRET_KEY,
       {
-        expiresIn: "8h",
+        expiresIn: "1d",
       }
     );
 
     res.status(200).json({ user, token });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+export const authenticated = async (req, res) => {
+  try {
+    console.log("Checking authentication");
+
+    const email = req.email;
+
+    const user = email && (await UserModel.findOne({ client_email: email }));
+
+    if (!user) {
+      return res.status(404).json({ message: "User does not exist" });
+    }
+
+    user.password = undefined;
+    return res.status(200).json({ user: user });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };

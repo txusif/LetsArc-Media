@@ -18,15 +18,19 @@ const videoSchema = new mongoose.Schema({
   video_description: {
     type: String,
   },
+  status: {
+    type: String,
+    default: "Script writing",
+  },
   video_url: {
     type: String,
   },
   date_started: {
-    type: Date,
+    type: String,
     default: formatDate(),
   },
   date_completed: {
-    type: Date,
+    type: String,
   },
 });
 
