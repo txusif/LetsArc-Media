@@ -1,9 +1,6 @@
 import { StatusList } from "../constants";
 
 const VideoStatusCard = ({ video }) => {
-  console.log(StatusList);
-  console.log(video);
-
   const currentStatusIndex = StatusList.indexOf(video.status);
 
   return (
