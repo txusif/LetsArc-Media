@@ -5,7 +5,7 @@ import {
   login,
   authenticated,
   createUser,
-} from "../Services/auth.js";
+} from "../Services/Auth.js";
 
 import {
   createVideo,
