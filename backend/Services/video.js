@@ -4,11 +4,12 @@ import { v4 as uuidv4 } from "uuid";
 import { formatDate } from "../utils/index.js";
 
 export const createVideo = async (req, res) => {
-  const email = req.email;
-  const { video_title } = req.body;
+  // const email = req.email;
+  console.log(req.body);
+  const { client_email, project_name, status, project_description } = req.body;
 
   try {
-    const userExists = await UserModel.findOne({ client_email: email });
+    const userExists = await UserModel.findOne({ client_email: client_email });
 
     if (!userExists) {
       return res.status(404).json({ message: "User does not exist" });
@@ -16,8 +17,12 @@ export const createVideo = async (req, res) => {
 
     const video = await VideoModel.create({
       video_id: uuidv4(),
-      client_email: email,
-      video_title,
+      client_name: userExists.client_name,
+      client_email: client_email,
+      video_title: project_name,
+      video_description: project_description,
+      status: status,
+      date_started: formatDate(),
     });
 
     res.status(201).json({ video });
@@ -37,6 +42,16 @@ export const getVideos = async (req, res) => {
     }
 
     const videos = await VideoModel.find({ client_email: email });
+
+    res.status(200).json({ videos });
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+export const getAllVideos = async (req, res) => {
+  try {
+    const videos = await VideoModel.find({});
 
     res.status(200).json({ videos });
   } catch (error) {
@@ -79,17 +94,17 @@ export const updateVideo = async (req, res) => {
 };
 
 export const updateVideoStatus = async (req, res) => {
-  const { video_id, status } = req.body;
-  const email = req.email;
+  console.log(req.body);
+  const { client_email, video_id, status } = req.body;
 
   try {
-    const userExists = await UserModel.findOne({ client_email: email });
+    const userExists = await UserModel.findOne({ client_email: client_email });
 
     if (!userExists) {
       return res.status(404).json({ message: "User does not exist" });
     }
 
-    const video = await VideoModel.findOne({ video_id });
+    const video = await VideoModel.findOne({ video_id: video_id });
 
     if (!video) {
       return res.status(404).json({ message: "Video does not exist" });
@@ -101,7 +116,7 @@ export const updateVideoStatus = async (req, res) => {
       { new: true }
     );
 
-    res.status(200).json({ updatedVideo });
+    res.status(200).json({ updatedVideo, message: "Video status updated"});
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });
   }

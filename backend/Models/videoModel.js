@@ -1,11 +1,14 @@
 import mongoose from "mongoose";
-import { formatDate } from "../utils/index.js";
 
 const videoSchema = new mongoose.Schema({
   video_id: {
     type: String,
     required: true,
     unique: true,
+  },
+  client_name: {
+    type: String,
+    required: true,
   },
   client_email: {
     type: String,
@@ -22,12 +25,11 @@ const videoSchema = new mongoose.Schema({
     type: String,
     default: "Script writing",
   },
-  video_url: {
-    type: String,
-  },
   date_started: {
     type: String,
-    default: formatDate(),
+  },
+  video_url: {
+    type: String,
   },
   date_completed: {
     type: String,
